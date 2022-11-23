@@ -20,12 +20,13 @@ public class EditActivity extends AppCompatActivity {
         curr = intent.getStringExtra("select_date");
         Curr_date.setText(curr + " 식단 추가");
 
-        ImageButton input_button = findViewById(R.id.save_button);
-        input_button.setOnClickListener(new View.OnClickListener(){
+        ImageButton save_button = findViewById(R.id.save_button);
+        save_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                Intent intent = new Intent(EditActivity.this, MainActivity.class);
-                TextView Curr_date = findViewById(R.id.Curr_date);
-                intent.putExtra("now_date", Curr_date.getText().toString());
+                Intent intent = new Intent(EditActivity.this, DetailActivity.class);
+                //Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                //TextView Curr_date = findViewById(R.id.Curr_date);
+                //intent.putExtra("now_date", Curr_date.getText().toString());
                 startActivity(intent);
             }
         });
