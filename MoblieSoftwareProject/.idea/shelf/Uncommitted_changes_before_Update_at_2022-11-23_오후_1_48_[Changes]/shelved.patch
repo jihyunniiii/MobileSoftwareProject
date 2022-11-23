@@ -1,0 +1,516 @@
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Hello World! 안녕하세요\"\r\n        android:fontFamily=\"@font/tmonmonsori\"\r\n        android:textColor=\"@color/green\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	(revision 8b8602da3c1d5bb1fa078622b1ef20b8203a32c9)
++++ b/app/src/main/res/layout/activity_main.xml	(date 1669114550821)
+@@ -4,17 +4,260 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:textAlignment="center"
+     tools:context=".MainActivity">
+ 
+-    <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Hello World! 안녕하세요"
+-        android:fontFamily="@font/tmonmonsori"
+-        android:textColor="@color/green"
++    <LinearLayout
++        android:id="@+id/linearLayout"
++        android:layout_width="419dp"
++        android:layout_height="65dp"
++        android:background="#E3EEB3"
++        android:orientation="vertical"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent">
++
++        <ImageView
++            android:id="@+id/imageView"
++            android:layout_width="173dp"
++            android:layout_height="match_parent"
++            app:srcCompat="@drawable/logo" />
++    </LinearLayout>
++
++    <LinearLayout
++        android:id="@+id/linearLayout2"
++        android:layout_width="418dp"
++        android:layout_height="408dp"
++        android:layout_marginTop="4dp"
++        android:orientation="vertical"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.0"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
++
++        <View
++            android:layout_width="380dp"
++            android:layout_height="1dp"
++            android:layout_centerInParent="true"
++            android:layout_gravity="center"
++            android:layout_marginTop="12dp"
++            android:background="@android:color/black" />
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="5dp"
++            android:orientation="horizontal">
++
++            <ImageButton
++                android:id="@+id/pre_but"
++                android:layout_width="80px"
++                android:layout_height="80px"
++                android:layout_marginLeft="20dp"
++                android:layout_marginTop="8.5dp"
++                android:src="@drawable/button" />
++
++            <ImageButton
++                android:id="@+id/next_but"
++                android:layout_width="80px"
++                android:layout_height="80px"
++                android:layout_marginLeft="20dp"
++                android:src="@drawable/button2" />
++
++            <TextView
++                android:id="@+id/monthYear"
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_marginEnd="20dp"
++                android:layout_weight="2"
++                android:fontFamily="@font/tmonmonsori"
++                android:textAlignment="textEnd"
++                android:textColor="@android:color/black"
++                android:textSize="10dp"
++                android:textStyle="bold"></TextView>
++        </LinearLayout>
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginBottom="20dp"
++            android:orientation="horizontal"></LinearLayout>
++
++        <androidx.appcompat.widget.LinearLayoutCompat
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginBottom="20dp"
++            android:orientation="horizontal">
++
++            <TextView
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:fontFamily="@font/tmonmonsori"
++                android:text="SUN"
++                android:textAlignment="center"
++                android:textColor="@android:color/holo_red_dark"
++                android:textSize="10dp"
++                android:textStyle="bold"></TextView>
++
++            <TextView
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:fontFamily="@font/tmonmonsori"
++                android:text="MON"
++                android:textAlignment="center"
++                android:textColor="@android:color/black"
++                android:textSize="10dp"
++                android:textStyle="bold"></TextView>
++
++            <TextView
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:fontFamily="@font/tmonmonsori"
++                android:text="TUE"
++                android:textAlignment="center"
++                android:textColor="@android:color/black"
++                android:textSize="10dp"
++                android:textStyle="bold"></TextView>
++
++            <TextView
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:fontFamily="@font/tmonmonsori"
++                android:text="WEN"
++                android:textAlignment="center"
++                android:textColor="@android:color/black"
++                android:textSize="10dp"
++                android:textStyle="bold"></TextView>
++
++            <TextView
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:fontFamily="@font/tmonmonsori"
++                android:text="THU"
++                android:textAlignment="center"
++                android:textColor="@android:color/black"
++                android:textSize="10dp"
++                android:textStyle="bold"></TextView>
++
++            <TextView
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:fontFamily="@font/tmonmonsori"
++                android:text="FRI"
++                android:textAlignment="center"
++                android:textColor="@android:color/black"
++                android:textSize="10dp"
++                android:textStyle="bold"></TextView>
++
++            <TextView
++                android:layout_width="0dp"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:fontFamily="@font/tmonmonsori"
++                android:text="SAT"
++                android:textAlignment="center"
++                android:textColor="@android:color/black"
++                android:textSize="10dp"
++                android:textStyle="bold"></TextView>
++        </androidx.appcompat.widget.LinearLayoutCompat>
++        <androidx.recyclerview.widget.RecyclerView
++            android:id="@+id/recyclerView"
++            android:layout_width="match_parent"
++            android:layout_height="280dp" />
++    </LinearLayout>
++
++    <LinearLayout
++        android:id="@+id/linearLayout3"
++        android:layout_width="421dp"
++        android:layout_height="2dp"
++        android:orientation="vertical"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.0"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
++
++        <View
++            android:id="@+id/view"
++            android:layout_width="380dp"
++            android:layout_height="1dp"
++            android:layout_centerInParent="true"
++            android:layout_gravity="center"
++            android:background="@android:color/black" />
++    </LinearLayout>
++
++    <LinearLayout
++        android:id="@+id/linearLayout4"
++        android:layout_width="420dp"
++        android:layout_height="34dp"
++        android:layout_marginTop="4dp"
++        android:orientation="horizontal"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.545"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
++
++        <TextView
++            android:id="@+id/choose_date"
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_marginLeft="30dp"
++            android:layout_weight="1"
++            android:fontFamily="@font/tmonmonsori"
++            android:text="날짜를 선택해주세요"
++            android:textAlignment="textStart"
++            android:layout_marginTop="6dp"
++            android:textColor="@color/black"
++            android:textSize="15dp"
++            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
++            tools:layout_editor_absoluteX="0dp"></TextView>
++
++        <ImageButton
++            android:id="@+id/input_button"
++            android:layout_width="90dp"
++            android:layout_height="26dp"
++            android:layout_marginRight="20dp"
++            android:padding="0sp"
++            android:scaleType="centerCrop"
++            android:gravity="center|right"
++            android:layout_marginTop="2dp"
++            android:src="@drawable/button3"></ImageButton>
++    </LinearLayout>
++
++    <LinearLayout
++        android:layout_width="418dp"
++        android:layout_height="311dp"
++        android:orientation="vertical"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
++        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+ 
++        <TextView
++            android:id="@+id/textView"
++            android:layout_width="373dp"
++            android:layout_height="270dp"
++            android:layout_gravity="center"
++            android:background="@drawable/edge"
++            android:fontFamily="@font/tmonmonsori"
++            android:gravity="center|right"
++            android:text="입력한 식사 리스트가 없습니다"
++            android:textAlignment="center"
++            android:textColor="@color/black" />
++
++        <TextView
++            android:id="@+id/textView2"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="5dp"
++            android:fontFamily="@font/tmonmonsori"
++            android:text="총 칼로리 : 0kcal"
++            android:textAlignment="center"
++            android:textColor="@color/black" />
++    </LinearLayout>
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/jihyun/mobilesoftwareproject/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jihyun.mobilesoftwareproject;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.os.Bundle;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/jihyun/mobilesoftwareproject/MainActivity.java b/app/src/main/java/com/jihyun/mobilesoftwareproject/MainActivity.java
+--- a/app/src/main/java/com/jihyun/mobilesoftwareproject/MainActivity.java	(revision 8b8602da3c1d5bb1fa078622b1ef20b8203a32c9)
++++ b/app/src/main/java/com/jihyun/mobilesoftwareproject/MainActivity.java	(date 1669165747154)
+@@ -1,14 +1,131 @@
+ package com.jihyun.mobilesoftwareproject;
+ 
+ import androidx.appcompat.app.AppCompatActivity;
++import androidx.recyclerview.widget.GridLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
+ 
++import android.content.Intent;
++import android.graphics.Color;
+ import android.os.Bundle;
++import android.text.SpannableString;
++import android.text.style.RelativeSizeSpan;
++import android.view.Gravity;
++import android.view.MotionEvent;
++import android.view.View;
++import android.widget.ImageButton;
++import android.widget.TextView;
++import android.widget.Toast;
++
++import java.text.SimpleDateFormat;
++import java.time.DayOfWeek;
++import java.time.LocalDate;
++import java.time.Year;
++import java.time.YearMonth;
++import java.time.format.DateTimeFormatter;
++import java.time.format.TextStyle;
++import java.util.ArrayList;
++import java.util.Calendar;
++import java.util.Date;
++import java.util.Locale;
+ 
+-public class MainActivity extends AppCompatActivity {
++public class MainActivity extends AppCompatActivity implements Clickevent {
++
++    TextView monthYear;
++    TextView choose_date;
++    LocalDate selectedDate;
++    RecyclerView recyclerView;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
++
++        monthYear = findViewById(R.id.monthYear);
++        ImageButton pre_but = findViewById(R.id.pre_but);
++        ImageButton next_but = findViewById(R.id.next_but);
++        recyclerView = findViewById(R.id.recyclerView);
++        selectedDate = LocalDate.now();
++        setMonthView();
++        Click_date(String.valueOf(selectedDate.getDayOfMonth()));
++
++        pre_but.setOnClickListener(new View.OnClickListener(){
++            @Override
++            public void onClick(View view){
++                selectedDate = selectedDate.minusMonths(1);
++                setMonthView();
++            }
++        });
++
++       next_but.setOnClickListener(new View.OnClickListener(){
++            @Override
++            public void onClick(View view){
++                selectedDate = selectedDate.plusMonths(1);
++                setMonthView();
++            }
++        });
++
++        ImageButton input_button = findViewById(R.id.input_button);
++        input_button.setOnClickListener(new View.OnClickListener(){
++            public void onClick(View view){
++                String Curr_date = choose_date.getText().toString();
++                Intent intent = new Intent(MainActivity.this, EditActivity.class);
++                intent.putExtra("select_date", Curr_date);
++                startActivity(intent);
++            }
++        });
++    }
++    private String printDate(LocalDate date){
++        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy\nMM");
++        return date.format(formatter);
++    }
++
++    private String printDate2(LocalDate date){
++        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월");
++        return date.format(formatter);
++    }
++
++
++    private void setMonthView(){
++        monthYear.setText(printDate(selectedDate));
++        String content = monthYear.getText().toString();
++        SpannableString spannableString = new SpannableString(content);
++        String word = String.valueOf(monthYear);
++        spannableString.setSpan(new RelativeSizeSpan(2.5f), 5, 7, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
++        monthYear.setText(spannableString);
++
++        ArrayList<String> dayarray = date_arr(selectedDate);
++        DateDecision decision = new DateDecision(dayarray, MainActivity.this);
++        RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(), 7);
++        recyclerView.setLayoutManager(manager);
++        recyclerView.setAdapter(decision);
++    }
++
++    private ArrayList<String> date_arr(LocalDate date){
++        ArrayList<String> dayarray = new ArrayList<>();
++        YearMonth yearMonth = YearMonth.from(date);
++        int Last_date = yearMonth.lengthOfMonth();
++        LocalDate First_date = selectedDate.withDayOfMonth(1);
++        int First_day = First_date.getDayOfWeek().getValue();
++        for(int i = 1; i < 42; i++){
++            if(i <= First_day || i > Last_date + First_day){
++                dayarray.add(null);
++            }
++            else
++            {
++                dayarray.add(String.valueOf(i - First_day));
++            }
++        }
++        return dayarray;
++    }
++
++    @Override
++    public void Click_date(String day) {
++        int year = selectedDate.getYear();
++        int monthValue = selectedDate.getMonthValue();
++        LocalDate selectedDate2 = LocalDate.of(year, monthValue, Integer.parseInt(day));
++        DayOfWeek dayOfWeek = selectedDate2.getDayOfWeek();
++        String Date= printDate2(selectedDate) + " " + day + "일 " + dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
++        choose_date = findViewById(R.id.choose_date);
++        choose_date.setText(Date);
+     }
+ }
+\ No newline at end of file
+Index: .idea/deploymentTargetDropDown.xml
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+deleted file mode 100644
+--- a/.idea/deploymentTargetDropDown.xml	(revision 8b8602da3c1d5bb1fa078622b1ef20b8203a32c9)
++++ /dev/null	(revision 8b8602da3c1d5bb1fa078622b1ef20b8203a32c9)
+@@ -1,17 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="deploymentTargetDropDown">
+-    <targetSelectedWithDropDown>
+-      <Target>
+-        <type value="QUICK_BOOT_TARGET" />
+-        <deviceKey>
+-          <Key>
+-            <type value="VIRTUAL_DEVICE_PATH" />
+-            <value value="C:\Users\Jihyun\.android\avd\test_device.avd" />
+-          </Key>
+-        </deviceKey>
+-      </Target>
+-    </targetSelectedWithDropDown>
+-    <timeTargetWasSelectedWithDropDown value="2022-11-17T12:26:27.492637900Z" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'com.android.application'\r\n}\r\n\r\nandroid {\r\n    namespace 'com.jihyun.mobilesoftwareproject'\r\n    compileSdk 32\r\n\r\n    defaultConfig {\r\n        applicationId \"com.jihyun.mobilesoftwareproject\"\r\n        minSdk 26\r\n        targetSdk 32\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation 'androidx.appcompat:appcompat:1.5.1'\r\n    implementation 'com.google.android.material:material:1.7.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.4'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	(revision 8b8602da3c1d5bb1fa078622b1ef20b8203a32c9)
++++ b/app/build.gradle	(date 1668864578513)
+@@ -26,6 +26,10 @@
+         sourceCompatibility JavaVersion.VERSION_1_8
+         targetCompatibility JavaVersion.VERSION_1_8
+     }
++
++    buildFeatures {
++        dataBinding = true
++    }
+ }
+ 
+ dependencies {
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.MoblieSoftwareProject\"\r\n        tools:targetApi=\"31\">\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n\r\n            <meta-data\r\n                android:name=\"android.app.lib_name\"\r\n                android:value=\"\" />\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 8b8602da3c1d5bb1fa078622b1ef20b8203a32c9)
++++ b/app/src/main/AndroidManifest.xml	(date 1669033828477)
+@@ -13,6 +13,13 @@
+         android:theme="@style/Theme.MoblieSoftwareProject"
+         tools:targetApi="31">
+         <activity
++            android:name=".EditActivity"
++            android:exported="false">
++            <meta-data
++                android:name="android.app.lib_name"
++                android:value="" />
++        </activity>
++        <activity
+             android:name=".MainActivity"
+             android:exported="true">
+             <intent-filter>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"Android Studio default JDK\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 8b8602da3c1d5bb1fa078622b1ef20b8203a32c9)
++++ b/.idea/misc.xml	(date 1669037314432)
+@@ -7,4 +7,11 @@
+   <component name="ProjectType">
+     <option name="id" value="Android" />
+   </component>
++  <component name="VisualizationToolProject">
++    <option name="state">
++      <ProjectState>
++        <option name="scale" value="0.176" />
++      </ProjectState>
++    </option>
++  </component>
+ </project>
+\ No newline at end of file
