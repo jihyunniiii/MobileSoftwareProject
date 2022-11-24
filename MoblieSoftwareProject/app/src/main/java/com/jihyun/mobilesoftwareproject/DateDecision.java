@@ -37,9 +37,10 @@ public class DateDecision extends RecyclerView.Adapter<DateDecision.DateHolder>{
         String day2 = dayarray.get(position);
         holder.day.setText(day2);
 
-        if(selected == position)
+        if(day2 != null && selected == position)
         {
-            holder.day.setBackgroundColor(Color.parseColor("#E3EEB3"));
+            holder.day.setBackgroundResource(R.drawable.circle);
+            //holder.day.setBackgroundColor(Color.parseColor("#E3EEB3"));
         }
         else
         {

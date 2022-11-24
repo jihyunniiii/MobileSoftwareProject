@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
     TextView choose_date;
     LocalDate selectedDate;
     RecyclerView recyclerView;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,12 +120,15 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
 
     @Override
     public void Click_date(String day) {
-        int year = selectedDate.getYear();
-        int monthValue = selectedDate.getMonthValue();
-        LocalDate selectedDate2 = LocalDate.of(year, monthValue, Integer.parseInt(day));
-        DayOfWeek dayOfWeek = selectedDate2.getDayOfWeek();
-        String Date= printDate2(selectedDate) + " " + day + "일 " + dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
-        choose_date = findViewById(R.id.choose_date);
-        choose_date.setText(Date);
+        if(day != null)
+        {
+            int year = selectedDate.getYear();
+            int monthValue = selectedDate.getMonthValue();
+            LocalDate selectedDate2 = LocalDate.of(year, monthValue, Integer.parseInt(day));
+            DayOfWeek dayOfWeek = selectedDate2.getDayOfWeek();
+            String Date= printDate2(selectedDate) + " " + day + "일 " + dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
+            choose_date = findViewById(R.id.choose_date);
+            choose_date.setText(Date);
+        }
     }
 }
