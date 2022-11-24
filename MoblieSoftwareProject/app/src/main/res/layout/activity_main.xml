@@ -11,7 +11,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="419dp"
         android:layout_height="65dp"
-        android:background="#E3EEB3"
+        android:background="@color/yellowishgreen"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -221,11 +221,11 @@
             android:id="@+id/input_button"
             android:layout_width="90dp"
             android:layout_height="26dp"
+            android:layout_marginTop="2dp"
             android:layout_marginRight="20dp"
+            android:gravity="center|right"
             android:padding="0sp"
             android:scaleType="centerCrop"
-            android:gravity="center|right"
-            android:layout_marginTop="2dp"
             android:src="@drawable/button3"></ImageButton>
     </LinearLayout>
 
@@ -248,7 +248,8 @@
             android:gravity="center|right"
             android:text="입력한 식사 리스트가 없습니다"
             android:textAlignment="center"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="13dp" />
 
         <TextView
             android:id="@+id/textView2"
