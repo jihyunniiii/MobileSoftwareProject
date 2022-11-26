@@ -22,7 +22,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/review" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView11"
             android:layout_width="23dp"
             android:layout_height="344dp"
@@ -52,7 +52,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/place" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView1"
             android:layout_width="23dp"
             android:layout_height="30dp"
@@ -82,7 +82,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/image" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView2"
             android:layout_width="23dp"
             android:layout_height="30dp"
@@ -112,7 +112,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/kcal" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView3"
             android:layout_width="23dp"
             android:layout_height="30dp"
@@ -189,7 +189,9 @@
             android:fontFamily="@font/tmonmonsori"
             android:paddingTop="5dp"
             android:text="  식사 유형을 선택해주세요"
+            android:textColor="@color/black"
             android:textSize="15dp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -207,7 +209,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/time" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView6"
             android:layout_width="23dp"
             android:layout_height="30dp"
@@ -237,7 +239,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/name" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView7"
             android:layout_width="23dp"
             android:layout_height="30dp"
