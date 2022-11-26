@@ -52,7 +52,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/place" />
 
-        <EditText
+        <TextView
             android:id="@+id/textView1"
             android:layout_width="23dp"
             android:layout_height="30dp"
@@ -63,7 +63,8 @@
             android:fontFamily="@font/tmonmonsori"
             android:paddingTop="5dp"
             android:text="  식사 장소를 선택하세요"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <LinearLayout
@@ -82,7 +83,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/image" />
 
-        <EditText
+        <TextView
             android:id="@+id/textView2"
             android:layout_width="23dp"
             android:layout_height="30dp"
@@ -93,7 +94,8 @@
             android:fontFamily="@font/tmonmonsori"
             android:paddingTop="5dp"
             android:text="  식사 사진을 업로드하세요"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <LinearLayout
@@ -188,7 +190,7 @@
             android:background="@drawable/edge"
             android:fontFamily="@font/tmonmonsori"
             android:paddingTop="5dp"
-            android:text="  식사 유형을 선택해주세요"
+            android:text="  식사 유형을 선택하세요"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
@@ -209,7 +211,7 @@
             android:layout_marginTop="2dp"
             app:srcCompat="@drawable/time" />
 
-        <EditText
+        <TextView
             android:id="@+id/textView6"
             android:layout_width="23dp"
             android:layout_height="30dp"
@@ -219,8 +221,9 @@
             android:background="@drawable/edge"
             android:fontFamily="@font/tmonmonsori"
             android:paddingTop="5dp"
-            android:text="  식사 시간을 입력하세요"
-            android:textSize="15dp" />
+            android:text="  식사 시간을 설정하세요"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <LinearLayout

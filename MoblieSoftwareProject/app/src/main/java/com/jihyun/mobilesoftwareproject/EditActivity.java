@@ -3,6 +3,8 @@ package com.jihyun.mobilesoftwareproject;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -11,12 +13,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity {
     private String[] category = {"Breakfast", "Lunch", "Dinner", "Snack"};
     private TextView categoryText;
     private AlertDialog categoryDialog;
+
+    private TextView timeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,7 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
+        // 식사 유형
         categoryText = (TextView) findViewById(R.id.textView5);
         categoryText.setOnClickListener(new OnClickListener() {
             @Override
@@ -58,5 +66,33 @@ public class EditActivity extends AppCompatActivity {
                 .setPositiveButton("확인",null)
                 .setNegativeButton("취소",null)
                 .create();
+
+        // 식사 시간
+        timeText = (TextView) findViewById(R.id.textView6);
+        timeText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar currentTime = Calendar.getInstance();
+                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = currentTime.get(Calendar.MINUTE);
+                TimePickerDialog MyTimePicker;
+                MyTimePicker = new TimePickerDialog(EditActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String state = "AM";
+
+                        if (selectedHour > 12) {
+                            selectedHour -= 12;
+                            state = "PM";
+                        }
+
+                        timeText.setText("  " + state + " " + selectedHour + " : " + selectedMinute);
+                    }
+                }, hour, minute, false);
+                MyTimePicker.setTitle("식사 시간을 설정하세요");
+                MyTimePicker.show();
+            }
+        });
     }
+
 }
