@@ -12,6 +12,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -50,6 +51,7 @@ public class EditActivity extends AppCompatActivity {
         curr = intent.getStringExtra("select_date");
         Curr_date.setText(curr + " 식단 추가");
 
+        // 버튼 클릭
         ImageButton save_button = findViewById(R.id.save_button);
         save_button.setOnClickListener(new OnClickListener(){
             public void onClick(View view){
@@ -74,7 +76,7 @@ public class EditActivity extends AppCompatActivity {
                 .setItems(category, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        categoryText.setText("  " + category[i]);
+                        categoryText.setText(category[i]);
                     }
                 })
                 .setTitle("식사 유형을 선택해주세요")
@@ -101,7 +103,7 @@ public class EditActivity extends AppCompatActivity {
                             state = "PM";
                         }
 
-                        timeText.setText("  " + state + " " + selectedHour + " : " + selectedMinute);
+                        timeText.setText(state + " " + selectedHour + " : " + selectedMinute);
                     }
                 }, hour, minute, false);
                 MyTimePicker.setTitle("식사 시간을 설정하세요");
@@ -120,6 +122,7 @@ public class EditActivity extends AppCompatActivity {
                 startActivityResult.launch(intent);
             }
         });
+
     }
 
     ActivityResultLauncher<Intent> startActivityResult = registerForActivityResult(
@@ -133,6 +136,7 @@ public class EditActivity extends AppCompatActivity {
                         try {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                             inputImageView.setImageBitmap(bitmap);
+                            imageText.setText(getPath(imageUri));
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
@@ -142,5 +146,14 @@ public class EditActivity extends AppCompatActivity {
                 }
             }
     );
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        startManagingCursor(cursor);
+        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(columnIndex);
+    }
 
 }
