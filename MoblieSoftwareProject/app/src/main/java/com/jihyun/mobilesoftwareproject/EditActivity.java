@@ -1,5 +1,10 @@
 package com.jihyun.mobilesoftwareproject;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,15 +12,21 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity {
@@ -24,6 +35,10 @@ public class EditActivity extends AppCompatActivity {
     private AlertDialog categoryDialog;
 
     private TextView timeText;
+
+    private Uri imageUri;
+    private ImageView inputImageView;
+    private TextView imageText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +108,39 @@ public class EditActivity extends AppCompatActivity {
                 MyTimePicker.show();
             }
         });
+
+        // 이미지
+        imageText = (TextView) findViewById(R.id.textView2);
+        inputImageView = (ImageView) findViewById(R.id.inputimageview);
+        imageText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityResult.launch(intent);
+            }
+        });
     }
+
+    ActivityResultLauncher<Intent> startActivityResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        imageUri = result.getData().getData();
+
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                            inputImageView.setImageBitmap(bitmap);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+    );
 
 }
