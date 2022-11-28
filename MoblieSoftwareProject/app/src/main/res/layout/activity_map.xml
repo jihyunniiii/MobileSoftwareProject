@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="419dp"
+        android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@color/yellowishgreen"
         android:orientation="vertical"
@@ -26,7 +26,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout5"
-        android:layout_width="419dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,9 +46,17 @@
             android:textSize="15dp" />
     </LinearLayout>
 
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_marginTop="105dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map"
+        tools:context=".mapActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
 
     <LinearLayout
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="13dp"
         android:orientation="vertical"
@@ -70,9 +78,9 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/checkbutton" />
+            app:srcCompat="@drawable/checkbutton"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

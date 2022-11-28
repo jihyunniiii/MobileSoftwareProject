@@ -16,7 +16,8 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAyrp4BnbWL7qrXSlxYgkTQBUXfJ93bqdg" />
+            android:value="${MAPS_API_KEY}" />
+
 
         <activity
             android:name=".mapActivity"
@@ -25,9 +26,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".DetailActivity"
             android:exported="false" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -37,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".EditActivity"
             android:exported="false" />
