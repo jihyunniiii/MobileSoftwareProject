@@ -3,18 +3,15 @@ package com.jihyun.mobilesoftwareproject;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,7 +21,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,6 +36,8 @@ public class EditActivity extends AppCompatActivity {
     private Uri imageUri;
     private ImageView inputImageView;
     private TextView imageText;
+
+    private TextView placeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +118,17 @@ public class EditActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityResult.launch(intent);
+            }
+        });
+
+        // 장소
+        placeText = (TextView) findViewById(R.id.textView1);
+        placeText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditActivity.this, mapActivity.class);
+                intent.putExtra("select_date", curr);
+                startActivity(intent);
             }
         });
 

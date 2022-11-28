@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
         input_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 String Curr_date = choose_date.getText().toString();
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
-                intent.putExtra("select_date", Curr_date);
-                startActivity(intent);
+                Intent map_intent = new Intent(MainActivity.this, EditActivity.class);
+                map_intent.putExtra("select_date", Curr_date);
+                startActivity(map_intent);
             }
         });
     }
