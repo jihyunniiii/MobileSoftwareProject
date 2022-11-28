@@ -28,7 +28,6 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ImageButton checkButton;
     private GoogleMap mMap;
     private String address = null;
-    //final Geocoder geocoder = new Geocoder(this, Locale.KOREA);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +58,7 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady (GoogleMap googleMap) {
         mMap = googleMap;
         MarkerOptions markerOptions = new MarkerOptions();
+        Geocoder geocoder = new Geocoder(this, Locale.KOREA);
 
         LatLng start = new LatLng(37.55201, 126.99150);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(start, 13));
@@ -73,7 +73,7 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Double longitude = point.longitude;
 
                 // 주소로 변환
-                /*List<Address> addlist = null;
+                List<Address> addlist = null;
                 try {
                     addlist = geocoder.getFromLocation(latitude, longitude, 10);
                 } catch (IOException e) {
@@ -88,9 +88,7 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
                     {
                         address = addlist.get(0).getAddressLine(0);
                     }
-                }*/
-
-                address = latitude.toString() + ", " + longitude.toString();
+                }
 
                 markerOptions.title("식사 위치");
                 markerOptions.snippet(address);
