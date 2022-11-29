@@ -44,6 +44,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
         TextView Curr_date = findViewById(R.id.Curr_date);
         String curr;
         Intent intent = getIntent();
@@ -124,17 +125,17 @@ public class EditActivity extends AppCompatActivity {
 
         // 장소
         placeText = (TextView) findViewById(R.id.textView1);
-        String address = intent.getStringExtra("address");
-        if (address != null)
-        {
-            placeText.setText(address);
-        }
+        //String address = intent.getStringExtra("address");
+        //if (address != null)
+        //{
+        //    placeText.setText(address);
+        //}
         placeText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditActivity.this, mapActivity.class);
-                intent.putExtra("select_date", curr);
-                startActivity(intent);
+                //intent.putExtra("select_date", curr);
+                startActivityForResult(intent, 3000);
             }
         });
 
@@ -169,6 +170,19 @@ public class EditActivity extends AppCompatActivity {
         int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         return cursor.getString(columnIndex);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                // MainActivity 에서 요청할 때 보낸 요청 코드 (3000)
+                case 3000:
+                    placeText.setText(data.getStringExtra("result"));
+                    break;
+            }
+        }
     }
 
 }
