@@ -31,14 +31,13 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private String address = null;
     private Geocoder geocoder;
+    private Double latitude;
+    private Double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        //String curr;
-        //Intent intent = getIntent();
-        //curr = intent.getStringExtra("select_date");
         geocoder = new Geocoder(this, Locale.KOREA);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -50,13 +49,9 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(mapActivity.this, EditActivity.class);
-                //intent.putExtra("select_date", curr);
-                //intent.putExtra("address", address);
                 Intent intent = new Intent();
                 intent.putExtra("result", address);
                 setResult(RESULT_OK, intent);
-                //startActivity(intent);
                 finish();
             }
         });
@@ -76,11 +71,27 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapClick(LatLng point) {
         mMap.clear();
 
-        Double latitude = point.latitude;
-        Double longitude = point.longitude;
+        latitude = point.latitude;
+        longitude = point.longitude;
 
         // 주소로 변환
-        new Thread(() -> {
+        geocoderthread thread = new geocoderthread();
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        markerOptions.title("식사 위치");
+        markerOptions.snippet(address);
+        markerOptions.position(new LatLng(latitude, longitude));
+
+        mMap.addMarker(markerOptions);
+    }
+
+    class geocoderthread extends Thread {
+        public void run() {
             List<Address> addlist = null;
             try {
                 addlist = geocoder.getFromLocation(latitude, longitude, 10);
@@ -97,12 +108,6 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
                     address = addlist.get(0).getAddressLine(0);
                 }
             }
-        }).start();
-
-        markerOptions.title("식사 위치");
-        markerOptions.snippet(address);
-        markerOptions.position(new LatLng(latitude, longitude));
-
-        mMap.addMarker(markerOptions);
+        }
     }
 }

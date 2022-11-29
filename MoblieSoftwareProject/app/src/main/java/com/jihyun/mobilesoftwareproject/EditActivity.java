@@ -125,16 +125,10 @@ public class EditActivity extends AppCompatActivity {
 
         // 장소
         placeText = (TextView) findViewById(R.id.textView1);
-        //String address = intent.getStringExtra("address");
-        //if (address != null)
-        //{
-        //    placeText.setText(address);
-        //}
         placeText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditActivity.this, mapActivity.class);
-                //intent.putExtra("select_date", curr);
                 startActivityForResult(intent, 3000);
             }
         });
