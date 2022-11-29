@@ -1,60 +1,47 @@
 package com.jihyun.mobilesoftwareproject;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.location.Geocoder;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+public class DetailActivity extends AppCompatActivity {
 
-import java.util.Locale;
+    private MenuDatabase menuDatabase;
+    public static final String TABLE_NAME = "menu";
+    SQLiteDatabase database;
 
-public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
-
-    private Geocoder geocoder;
-    private GoogleMap mMap;
-
-    private TextView date_text;
-    private ImageView food_image;
-    private TextView type_text;
-    private TextView time_text;
-    private TextView name_text;
-    private TextView number_text;
-    private TextView kcal_text;
-    private TextView place_text;
-    private TextView review_text;
+    TextView type_;
+    TextView time_;
+    TextView mnn_;
+    TextView kcal_;
+    TextView review_;
+    TextView date_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        geocoder = new Geocoder(this, Locale.KOREA);
         date_text = findViewById(R.id.date_text);
-        food_image = findViewById(R.id.food_image);
-        type_text = findViewById(R.id.type_text);
-        time_text = findViewById(R.id.time_text);
-        name_text = findViewById(R.id.name_text);
-        number_text = findViewById(R.id.number_text);
-        kcal_text = findViewById(R.id.kcal_text);
-        place_text = findViewById(R.id.place_text);
-        review_text = findViewById(R.id.review_text);
+        String curr;
+        Intent intent = getIntent();
+        curr = intent.getStringExtra("now_date");
+        date_text.setText(curr);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.output_map);
-        mapFragment.getMapAsync(this);
-
+        type_ = findViewById(R.id.type_text);
+        time_ = findViewById(R.id.time_text);
+        mnn_ = findViewById(R.id.name_text);
+        kcal_ = findViewById(R.id.kcal_text);
+        review_ = findViewById(R.id.review_text);
+        menuDatabase = MenuDatabase.getInstance(this);
+        database = menuDatabase.getWritableDatabase();
+        selectMenu(TABLE_NAME);
         ImageButton check_button = findViewById(R.id.check_button);
         check_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -64,13 +51,32 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         });
     }
 
-    MarkerOptions markerOptions = new MarkerOptions();
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng start = new LatLng(37.55201, 126.99150);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(start, 13));
+    public void selectMenu(String t_name){
+        if (database != null) {
+            type_.setText("");
+            time_.setText("");
+            mnn_.setText("");
+            kcal_.setText("");
+            review_.setText("");
 
+            String sql = "SELECT type, time, mnn, kcal, review FROM " + t_name;
+            Cursor cursor  = database.rawQuery(sql, null);
+            for(int i = 0; i < cursor.getCount(); i++)
+            {
+                cursor.moveToNext();
+                String type = cursor.getString(0);
+                String time = cursor.getString(1);
+                String mnn = cursor.getString(2);
+                String kcal = cursor.getString(3);
+                String review = cursor.getString(4);
+                type_.setText(type);
+                time_.setText(time);
+                mnn_.setText(mnn);
+                kcal_.setText(kcal);
+                review_.setText(review);
+            }
+            cursor.close();
+        }
     }
 }

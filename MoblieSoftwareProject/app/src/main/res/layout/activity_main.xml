@@ -250,29 +250,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_marginHorizontal="15dp"
-                    android:layout_height="270dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_menu"
+                    android:layout_width="378dp"
+                    android:layout_height="280dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/edge"
-                    android:fontFamily="@font/tmonmonsori"
-                    android:gravity="center"
-                    android:text="입력한 식사 리스트가 없습니다"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="13dp" />
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edge" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/sum_kcal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:fontFamily="@font/tmonmonsori"
-                    android:text="총 칼로리 : 0kcal"
-                    android:textAlignment="center"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:text="총 칼로리 : 0kcal" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

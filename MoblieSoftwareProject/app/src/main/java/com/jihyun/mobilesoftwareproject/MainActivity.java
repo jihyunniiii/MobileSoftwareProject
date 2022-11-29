@@ -2,9 +2,12 @@ package com.jihyun.mobilesoftwareproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -30,15 +33,36 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements Clickevent {
 
+    private MenuDatabase menuDatabase;
+    public static final String TABLE_NAME = "menu";
+    SQLiteDatabase database;
+
     TextView monthYear;
     TextView choose_date;
     LocalDate selectedDate;
     RecyclerView recyclerView;
-    
+    RecyclerView mRecyclerView;
+    MenuRecyclerAdapter mRecyclerAdapter;
+    ArrayList<Menudata> menudata;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_menu);
+        mRecyclerAdapter = new MenuRecyclerAdapter();
+        mRecyclerView.setAdapter(mRecyclerAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        menudata = new ArrayList<>();
+
+        //실험용 데이터
+        for(int i=1;i<=10;i++){
+            menudata.add(new Menudata("오전 8:00", "Breakfast/김치찌개", "500kcal"));
+        }
+        mRecyclerAdapter.setmenulist(menudata);
+
+
+        menuDatabase = MenuDatabase.getInstance(this);
+        database = menuDatabase.getWritableDatabase();
 
         monthYear = findViewById(R.id.monthYear);
         ImageButton pre_but = findViewById(R.id.pre_but);
@@ -65,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
         });
 
         ImageButton input_button = findViewById(R.id.input_button);
+        String Curr_date = choose_date.getText().toString();
         input_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                String Curr_date = choose_date.getText().toString();
                 Intent map_intent = new Intent(MainActivity.this, EditActivity.class);
                 map_intent.putExtra("select_date", Curr_date);
                 startActivity(map_intent);
@@ -131,4 +155,26 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
             choose_date.setText(Date);
         }
     }
+
+    /*private void addtext(String t_name, String date){
+        if (database != null) {
+            String sql = "SELECT type, time, mnn, kcal FROM " + t_name + " WHERE date = \"" + date + "\"";
+            Cursor cursor  = database.rawQuery(sql, null);
+            for(int i = 0; i < cursor.getCount(); i++)
+            {
+                cursor.moveToNext();
+                String type = cursor.getString(0);
+                String time = cursor.getString(1);
+                String mnn = cursor.getString(2);
+                String kcal = cursor.getString(3);
+                println(time + " " + type + "/" + mnn + "" + kcal);
+            }
+            cursor.close();
+        }
+    }
+
+    private void println (String data) {
+        textView.append(data + "\n");
+    }
+     */
 }

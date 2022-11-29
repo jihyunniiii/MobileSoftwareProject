@@ -11,17 +11,21 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.StringBuilderPrinter;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,34 +35,53 @@ public class EditActivity extends AppCompatActivity {
     private String[] category = {"Breakfast", "Lunch", "Dinner", "Snack"};
     private TextView categoryText;
     private AlertDialog categoryDialog;
-
     private TextView timeText;
-
     private Uri imageUri;
     private ImageView inputImageView;
     private TextView imageText;
 
-    private TextView placeText;
+
+    //데이터베이스 임시구현
+    private MenuDatabase menuDatabase;
+    public static final String TABLE_NAME = "menu";
+    SQLiteDatabase database;
+
+    TextView type_text;
+    TextView time_text;
+    EditText mnn_text;
+    EditText kcal_text;
+    EditText review_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-
         TextView Curr_date = findViewById(R.id.Curr_date);
         String curr;
         Intent intent = getIntent();
         curr = intent.getStringExtra("select_date");
         Curr_date.setText(curr + " 식단 추가");
+        menuDatabase = MenuDatabase.getInstance(this);
+        database = menuDatabase.getWritableDatabase();
+        type_text = findViewById(R.id.textView5);
+        time_text = findViewById(R.id.textView6);
+        mnn_text = findViewById(R.id.textView7);
+        kcal_text = findViewById(R.id.textView3);
+        review_text = findViewById(R.id.textView11);
 
-        // 버튼 클릭
+        // 데이터 저장.
         ImageButton save_button = findViewById(R.id.save_button);
         save_button.setOnClickListener(new OnClickListener(){
             public void onClick(View view){
+                String type = type_text.getText().toString().trim();
+                String time = time_text.getText().toString().trim();
+                String mnn = mnn_text.getText().toString().trim();
+                String kcal = kcal_text.getText().toString().trim();
+                String review = review_text.getText().toString().trim();
+                insertmenu(curr, type, time, mnn, kcal, review);
                 Intent intent = new Intent(EditActivity.this, DetailActivity.class);
                 //Intent intent = new Intent(EditActivity.this, MainActivity.class);
-                //TextView Curr_date = findViewById(R.id.Curr_date);
-                //intent.putExtra("now_date", Curr_date.getText().toString());
+                intent.putExtra("now_date", curr);
                 startActivity(intent);
             }
         });
@@ -97,12 +120,10 @@ public class EditActivity extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         String state = "AM";
-
                         if (selectedHour > 12) {
                             selectedHour -= 12;
                             state = "PM";
                         }
-
                         timeText.setText(state + " " + selectedHour + " : " + selectedMinute);
                     }
                 }, hour, minute, false);
@@ -123,15 +144,6 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
-        // 장소
-        placeText = (TextView) findViewById(R.id.textView1);
-        placeText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditActivity.this, mapActivity.class);
-                startActivityForResult(intent, 3000);
-            }
-        });
 
     }
 
@@ -166,17 +178,20 @@ public class EditActivity extends AppCompatActivity {
         return cursor.getString(columnIndex);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            switch (requestCode){
-                // MainActivity 에서 요청할 때 보낸 요청 코드 (3000)
-                case 3000:
-                    placeText.setText(data.getStringExtra("result"));
-                    break;
-            }
+    public void insertmenu(String date, String type, String time, String mnn, String kcal, String review) {
+        if (database != null) {
+            String sql = "INSERT INTO menu(date, type, time, mnn, kcal, review) VALUES(?, ?, ?, ?, ?, ?)";
+            Object[] params = {date, type, time, mnn, kcal, review};
+            database.execSQL(sql, params);
         }
     }
-
+/*
+    public void deletemenu(String mnn){
+        if (database != null) {
+            String sql = "DELETE FROM menu WHERE mnn=?";
+            Object[] params = {mnn};
+            database.execSQL(sql, params);
+        }
+    }
+ */
 }
