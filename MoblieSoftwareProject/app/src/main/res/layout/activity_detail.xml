@@ -195,14 +195,14 @@
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/kacl_image"
+                    android:id="@+id/num_image"
                     android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="2dp"
-                    app:srcCompat="@drawable/kcal" />
+                    app:srcCompat="@drawable/number" />
 
                 <TextView
-                    android:id="@+id/kcal_text"
+                    android:id="@+id/num_text"
                     android:layout_width="23dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"

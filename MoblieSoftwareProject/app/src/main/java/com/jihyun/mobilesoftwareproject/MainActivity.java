@@ -33,9 +33,15 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements Clickevent {
 
+    //사용자가 입력하는 데이터베이스, 메뉴 이름, 아점저, 시간, 메뉴 수량 정보를 담고 있음. 지도 정보와 사진 정보를 추가적으로 구현해야함
     private MenuDatabase menuDatabase;
     public static final String TABLE_NAME = "menu";
     SQLiteDatabase database;
+
+    //메뉴 이름과 칼로리 정보를 담고 있는 데이터베이스
+    private MenuDatabase2 menuDatabase2;
+    public static final String TABLE_NAME2 = "menu2";
+    SQLiteDatabase database2;
 
     TextView monthYear;
     TextView choose_date;
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
     RecyclerView mRecyclerView;
     MenuRecyclerAdapter mRecyclerAdapter;
     ArrayList<Menudata> menudata;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,15 +61,20 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         menudata = new ArrayList<>();
 
-        //실험용 데이터
-        for(int i=1;i<=10;i++){
-            menudata.add(new Menudata("오전 8:00", "Breakfast/김치찌개", "500kcal"));
-        }
-        mRecyclerAdapter.setmenulist(menudata);
-
-
         menuDatabase = MenuDatabase.getInstance(this);
         database = menuDatabase.getWritableDatabase();
+
+        menuDatabase2 = MenuDatabase2.getInstance(this);
+        database2 = menuDatabase2.getWritableDatabase();
+
+        //메뉴 이름과 칼로리 정보 임의로 넣기
+        database2.execSQL("DELETE FROM " + TABLE_NAME2);
+        insertmenu2("쌀밥", "300");
+        insertmenu2("흑미밥", "300");
+        insertmenu2("짜장면", "700");
+        insertmenu2("라면", "520");
+        insertmenu2("햄버거", "400");
+        insertmenu2("단팥크림빵", "388");
 
         monthYear = findViewById(R.id.monthYear);
         ImageButton pre_but = findViewById(R.id.pre_but);
@@ -90,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
 
         ImageButton input_button = findViewById(R.id.input_button);
         String Curr_date = choose_date.getText().toString();
+
+        addtext(TABLE_NAME, TABLE_NAME2, Curr_date);
+        mRecyclerAdapter.setmenulist(menudata);
+
         input_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 Intent map_intent = new Intent(MainActivity.this, EditActivity.class);
@@ -156,25 +172,31 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
         }
     }
 
-    /*private void addtext(String t_name, String date){
+    private void addtext(String t_name, String t_name2, String date){
         if (database != null) {
-            String sql = "SELECT type, time, mnn, kcal FROM " + t_name + " WHERE date = \"" + date + "\"";
-            Cursor cursor  = database.rawQuery(sql, null);
+            String sql = "SELECT type, time, name, num FROM " + t_name + " WHERE date = \"" + date + "\"";
+            Cursor cursor = database.rawQuery(sql, null);
             for(int i = 0; i < cursor.getCount(); i++)
             {
                 cursor.moveToNext();
                 String type = cursor.getString(0);
                 String time = cursor.getString(1);
-                String mnn = cursor.getString(2);
-                String kcal = cursor.getString(3);
-                println(time + " " + type + "/" + mnn + "" + kcal);
+                String name = cursor.getString(2);
+                String num = cursor.getString(3);
+                menudata.add(new Menudata(type, time + " / " + name));
+                //이 다음에 메뉴하고 kcal, 그거는 데이터베이스 추가해서.
+                //이 때 kcal은 mn 값에 곱해서 출력해야함.
+                //총 칼로리 값도 여기서 계산해서 바꾸면 됨.
             }
             cursor.close();
         }
     }
 
-    private void println (String data) {
-        textView.append(data + "\n");
+    private void insertmenu2(String name, String kcal) {
+        if (database2 != null) {
+            String sql = "INSERT INTO menu2(name, kcal) VALUES(?, ?)";
+            Object[] params = {name, kcal};
+            database2.execSQL(sql, params);
+        }
     }
-     */
 }

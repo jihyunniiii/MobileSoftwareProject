@@ -57,8 +57,8 @@ public class EditActivity extends AppCompatActivity {
 
     TextView type_text;
     TextView time_text;
-    TextView mnn_text;
-    EditText kcal_text;
+    TextView mn_text;
+    EditText num_text;
     EditText review_text;
 
     @Override
@@ -78,7 +78,8 @@ public class EditActivity extends AppCompatActivity {
 
         type_text = findViewById(R.id.textView5);
         time_text = findViewById(R.id.textView6);
-        mnn_text = findViewById(R.id.textView7);
+        mn_text = findViewById(R.id.textView7);
+        num_text = findViewById(R.id.textView3);
         review_text = findViewById(R.id.textView11);
 
         // 데이터 저장.
@@ -87,9 +88,11 @@ public class EditActivity extends AppCompatActivity {
             public void onClick(View view){
                 String type = type_text.getText().toString().trim();
                 String time = time_text.getText().toString().trim();
-                String mnn = mnn_text.getText().toString().trim();
+                String mn = mn_text.getText().toString().trim();
+                String num = num_text.getText().toString().trim();
                 String review = review_text.getText().toString().trim();
-                insertmenu(curr, type, time, mnn, review);
+                //{name, date, type, time, num, review}
+                insertmenu(mn, curr, type, time, num, review);
                 Intent intent = new Intent(EditActivity.this, DetailActivity.class);
                 //Intent intent = new Intent(EditActivity.this, MainActivity.class);
                 intent.putExtra("now_date", curr);
@@ -211,10 +214,10 @@ public class EditActivity extends AppCompatActivity {
         return cursor.getString(columnIndex);
     }
 
-    public void insertmenu(String date, String type, String time, String mn,  String review) {
+    public void insertmenu(String name, String date, String type, String time, String num, String review) {
         if (database != null) {
-            String sql = "INSERT INTO menu(date, type, time, mn, review) VALUES(?, ?, ?, ?,  ?)";
-            Object[] params = {date, type, time, mn, review};
+            String sql = "INSERT INTO menu(name, date, type, time, num, review) VALUES(?, ?, ?, ?, ?,  ?)";
+            Object[] params = {name, date, type, time, num, review};
             database.execSQL(sql, params);
         }
     }
