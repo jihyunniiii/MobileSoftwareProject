@@ -35,6 +35,11 @@ public class EditActivity extends AppCompatActivity {
     private String[] category = {"Breakfast", "Lunch", "Dinner", "Snack"};
     private TextView categoryText;
     private AlertDialog categoryDialog;
+
+    private String[] category2;
+    private TextView categoryText2;
+    private AlertDialog categoryDialog2;
+
     private TextView timeText;
     private Uri imageUri;
     private ImageView inputImageView;
@@ -46,9 +51,13 @@ public class EditActivity extends AppCompatActivity {
     public static final String TABLE_NAME = "menu";
     SQLiteDatabase database;
 
+    private MenuDatabase2 menuDatabase2;
+    public static final String TABLE_NAME2 = "menu2";
+    SQLiteDatabase database2;
+
     TextView type_text;
     TextView time_text;
-    EditText mnn_text;
+    TextView mnn_text;
     EditText kcal_text;
     EditText review_text;
 
@@ -63,10 +72,13 @@ public class EditActivity extends AppCompatActivity {
         Curr_date.setText(curr + " 식단 추가");
         menuDatabase = MenuDatabase.getInstance(this);
         database = menuDatabase.getWritableDatabase();
+
+        menuDatabase2 = MenuDatabase2.getInstance(this);
+        database2 = menuDatabase2.getWritableDatabase();
+
         type_text = findViewById(R.id.textView5);
         time_text = findViewById(R.id.textView6);
         mnn_text = findViewById(R.id.textView7);
-        kcal_text = findViewById(R.id.textView3);
         review_text = findViewById(R.id.textView11);
 
         // 데이터 저장.
@@ -76,15 +88,36 @@ public class EditActivity extends AppCompatActivity {
                 String type = type_text.getText().toString().trim();
                 String time = time_text.getText().toString().trim();
                 String mnn = mnn_text.getText().toString().trim();
-                String kcal = kcal_text.getText().toString().trim();
                 String review = review_text.getText().toString().trim();
-                insertmenu(curr, type, time, mnn, kcal, review);
+                insertmenu(curr, type, time, mnn, review);
                 Intent intent = new Intent(EditActivity.this, DetailActivity.class);
                 //Intent intent = new Intent(EditActivity.this, MainActivity.class);
                 intent.putExtra("now_date", curr);
                 startActivity(intent);
             }
         });
+
+        getAllmenu(TABLE_NAME2);
+        //메뉴 선택
+        categoryText2 = (TextView) findViewById(R.id.textView7);
+        categoryText2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryDialog2.show();
+            }
+        });
+
+        categoryDialog2 = new AlertDialog.Builder(EditActivity.this)
+                .setItems(category2, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        categoryText2.setText(category2[i]);
+                    }
+                })
+                .setTitle("메뉴를 선택해주세요")
+                .setPositiveButton("확인",null)
+                .setNegativeButton("취소",null)
+                .create();
 
         // 식사 유형
         categoryText = (TextView) findViewById(R.id.textView5);
@@ -178,11 +211,26 @@ public class EditActivity extends AppCompatActivity {
         return cursor.getString(columnIndex);
     }
 
-    public void insertmenu(String date, String type, String time, String mnn, String kcal, String review) {
+    public void insertmenu(String date, String type, String time, String mn,  String review) {
         if (database != null) {
-            String sql = "INSERT INTO menu(date, type, time, mnn, kcal, review) VALUES(?, ?, ?, ?, ?, ?)";
-            Object[] params = {date, type, time, mnn, kcal, review};
+            String sql = "INSERT INTO menu(date, type, time, mn, review) VALUES(?, ?, ?, ?,  ?)";
+            Object[] params = {date, type, time, mn, review};
             database.execSQL(sql, params);
+        }
+    }
+
+    public void getAllmenu(String t_name){
+        if (database2 != null){
+            String sql = "SELECT name, kcal FROM " + t_name;
+            Cursor cursor  = database2.rawQuery(sql, null);
+            category2 = new String[cursor.getCount()];
+            for(int i = 0; i < cursor.getCount(); i++)
+            {
+                cursor.moveToNext();
+                String data = cursor.getString(0);
+                category2[i] = data;
+            }
+            cursor.close();
         }
     }
 /*
