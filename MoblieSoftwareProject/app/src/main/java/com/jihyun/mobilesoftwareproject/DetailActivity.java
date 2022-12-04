@@ -17,11 +17,12 @@ public class DetailActivity extends AppCompatActivity {
     public static final String TABLE_NAME = "menu";
     SQLiteDatabase database;
 
+    TextView date_text;
     TextView type_;
     TextView time_;
     TextView num_;
     TextView review_;
-    TextView date_text;
+    TextView name_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class DetailActivity extends AppCompatActivity {
         time_ = findViewById(R.id.time_text);
         num_ = findViewById(R.id.num_text);
         review_ = findViewById(R.id.review_text);
+        name_ = findViewById(R.id.name_text);
         menuDatabase = MenuDatabase.getInstance(this);
         database = menuDatabase.getWritableDatabase();
         selectMenu(TABLE_NAME);
@@ -56,8 +58,9 @@ public class DetailActivity extends AppCompatActivity {
             time_.setText("");
             num_.setText("");
             review_.setText("");
+            name_.setText("");
 
-            String sql = "SELECT type, time, num, review FROM " + t_name;
+            String sql = "SELECT type, time, num, review, name FROM " + t_name;
             Cursor cursor  = database.rawQuery(sql, null);
             for(int i = 0; i < cursor.getCount(); i++)
             {
@@ -66,10 +69,12 @@ public class DetailActivity extends AppCompatActivity {
                 String time = cursor.getString(1);
                 String num = cursor.getString(2);
                 String review = cursor.getString(3);
+                String name = cursor.getString(4);
                 type_.setText(type);
                 time_.setText(time);
                 num_.setText(num);
                 review_.setText(review);
+                name_.setText(name);
             }
             cursor.close();
         }

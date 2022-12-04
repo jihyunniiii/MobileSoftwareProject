@@ -60,6 +60,7 @@ public class EditActivity extends AppCompatActivity {
     TextView mn_text;
     EditText num_text;
     EditText review_text;
+    int kcal_size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,9 @@ public class EditActivity extends AppCompatActivity {
                 String mn = mn_text.getText().toString().trim();
                 String num = num_text.getText().toString().trim();
                 String review = review_text.getText().toString().trim();
+                getkcal(TABLE_NAME2, mn);
                 //{name, date, type, time, num, review}
-                insertmenu(mn, curr, type, time, num, review);
+                insertmenu(mn, curr, type, time, num, review, kcal_size);
                 Intent intent = new Intent(EditActivity.this, DetailActivity.class);
                 //Intent intent = new Intent(EditActivity.this, MainActivity.class);
                 intent.putExtra("now_date", curr);
@@ -190,7 +192,6 @@ public class EditActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         imageUri = result.getData().getData();
-
                         try {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                             inputImageView.setImageBitmap(bitmap);
@@ -206,25 +207,32 @@ public class EditActivity extends AppCompatActivity {
     );
 
     public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        startManagingCursor(cursor);
-        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(columnIndex);
+        String path;
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        if (cursor == null){
+            path = uri.getPath();
+        }
+        else
+        {
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            path = cursor.getString(index);
+            cursor.close();
+        }
+        return path;
     }
 
-    public void insertmenu(String name, String date, String type, String time, String num, String review) {
+    public void insertmenu(String name, String date, String type, String time, String num, String review, int kcal) {
         if (database != null) {
-            String sql = "INSERT INTO menu(name, date, type, time, num, review) VALUES(?, ?, ?, ?, ?,  ?)";
-            Object[] params = {name, date, type, time, num, review};
+            String sql = "INSERT INTO menu(name, date, type, time, num, review, kcal) VALUES(?, ?, ?, ?, ?, ?, ?)";
+            Object[] params = {name, date, type, time, num, review, kcal};
             database.execSQL(sql, params);
         }
     }
 
     public void getAllmenu(String t_name){
         if (database2 != null){
-            String sql = "SELECT name, kcal FROM " + t_name;
+            String sql = "SELECT name FROM " + t_name;
             Cursor cursor  = database2.rawQuery(sql, null);
             category2 = new String[cursor.getCount()];
             for(int i = 0; i < cursor.getCount(); i++)
@@ -234,6 +242,20 @@ public class EditActivity extends AppCompatActivity {
                 category2[i] = data;
             }
             cursor.close();
+        }
+    }
+
+    public void getkcal(String t_name, String name) {
+        if (database2 != null)
+        {
+            String sql = "SELECT kcal FROM " + t_name + " WHERE name = \"" + name + "\"";
+            Cursor cursor = database2.rawQuery(sql, null);
+            for(int i = 0; i < cursor.getCount(); i++)
+            {
+                cursor.moveToNext();
+                int data = cursor.getInt(0);
+                kcal_size = data;
+            }
         }
     }
 /*

@@ -25,12 +25,16 @@ public class MenuDatabase extends SQLiteOpenHelper {
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_TIME = "time";
     public static final String COLUMN_NUM = "num";
+    public static final String COLUMN_KCAL = "kcal";
+    public static final String COLUMN_IMG = "image";
+    public static final String COLUMN_MAP = "map";
     public static final String COLUMN_REVIEW = "review";
 
     public static final String SQL_CREATE_MENU = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
             " (id INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_NAME + " TEXT, " +
             COLUMN_DATE + " TEXT, " + COLUMN_TYPE + " TEXT, " + COLUMN_TIME + " TEXT, "
-            + COLUMN_NUM + " TEXT, " + COLUMN_REVIEW + " TEXT" + ");";
+            + COLUMN_NUM + " TEXT, " + COLUMN_KCAL + " TEXT, " + COLUMN_IMG + " TEXT, "
+            + COLUMN_MAP + " TEXT, "+ COLUMN_REVIEW + " TEXT" + ");";
 
     private MenuDatabase(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

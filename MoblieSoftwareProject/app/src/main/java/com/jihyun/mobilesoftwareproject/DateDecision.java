@@ -47,10 +47,6 @@ public class DateDecision extends RecyclerView.Adapter<DateDecision.DateHolder>{
             holder.day.setBackgroundColor(Color.TRANSPARENT);
         }
 
-        if(position == 0 || position % 7 == 0){
-            holder.day.setTextColor(Color.RED);
-        }
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){

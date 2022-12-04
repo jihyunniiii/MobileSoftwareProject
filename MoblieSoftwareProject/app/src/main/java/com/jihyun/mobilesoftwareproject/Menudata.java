@@ -2,36 +2,56 @@ package com.jihyun.mobilesoftwareproject;
 
 public class Menudata {
     String time;
-    String mnn;
-    String kcal;
+    String mn;
+    String date;
+    int kcal;
+    int id;
 
-    public Menudata(String time, String mnn, String kcal) {
+    public Menudata(String time, String mn, String date, int kcal, int id) {
         this.time = time;
-        this.mnn= mnn;
+        this.mn= mn;
+        this.date = date;
         this.kcal = kcal;
+        this.id = id;
     }
 
     public String gettime(){
         return time;
     }
 
-    public String getmnn(){
-        return mnn;
+    public String getmn(){
+        return mn;
     }
 
-    public String getkcal(){
+    public String getdate(){
+        return date;
+    }
+
+    public int getkcal(){
         return kcal;
+    }
+
+    public int getid(){
+        return id;
     }
 
     public void settime(String time){
         this.time = time;
     }
 
-    public void setmnn(String mnn){
-        this.mnn = mnn;
+    public void setmn(String mnn){
+        this.mn = mn;
     }
 
-    public void setkcal(String kcal){
+    public void setdate(String date){
+        this.date = date;
+    }
+
+    public void setkcal(int kcal){
         this.kcal = kcal;
+    }
+
+    public void setid(int id){
+        this.id = id;
     }
 }

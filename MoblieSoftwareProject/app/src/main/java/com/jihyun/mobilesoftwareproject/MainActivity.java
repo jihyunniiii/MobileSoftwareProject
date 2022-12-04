@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
     RecyclerView mRecyclerView;
     MenuRecyclerAdapter mRecyclerAdapter;
     ArrayList<Menudata> menudata;
+    TextView sum_kcal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         menudata = new ArrayList<>();
+        sum_kcal = findViewById(R.id.sum_kcal);
 
         menuDatabase = MenuDatabase.getInstance(this);
         database = menuDatabase.getWritableDatabase();
@@ -103,14 +105,12 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
         ImageButton input_button = findViewById(R.id.input_button);
         String Curr_date = choose_date.getText().toString();
 
-        addtext(TABLE_NAME, TABLE_NAME2, Curr_date);
-        mRecyclerAdapter.setmenulist(menudata);
-
         input_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                Intent map_intent = new Intent(MainActivity.this, EditActivity.class);
-                map_intent.putExtra("select_date", Curr_date);
-                startActivity(map_intent);
+                String Curr_date = choose_date.getText().toString();
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                intent.putExtra("select_date", Curr_date);
+                startActivity(intent);
             }
         });
     }
@@ -162,6 +162,9 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
     public void Click_date(String day) {
         if(day != null)
         {
+            sum_kcal.setText("총 칼로리 : 0kcal");
+            menudata.clear();
+            mRecyclerAdapter.setmenulist(menudata);
             int year = selectedDate.getYear();
             int monthValue = selectedDate.getMonthValue();
             LocalDate selectedDate2 = LocalDate.of(year, monthValue, Integer.parseInt(day));
@@ -169,25 +172,29 @@ public class MainActivity extends AppCompatActivity implements Clickevent {
             String Date= printDate2(selectedDate) + " " + day + "일 " + dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
             choose_date = findViewById(R.id.choose_date);
             choose_date.setText(Date);
+            addtext(TABLE_NAME, choose_date.getText().toString());
         }
     }
 
-    private void addtext(String t_name, String t_name2, String date){
+    private void addtext(String t_name, String date){
         if (database != null) {
-            String sql = "SELECT type, time, name, num FROM " + t_name + " WHERE date = \"" + date + "\"";
+            String sql = "SELECT id, type, time, name, num, kcal FROM " + t_name + " WHERE date = \"" + date + "\"";
             Cursor cursor = database.rawQuery(sql, null);
+            int a = 0;
             for(int i = 0; i < cursor.getCount(); i++)
             {
                 cursor.moveToNext();
-                String type = cursor.getString(0);
-                String time = cursor.getString(1);
-                String name = cursor.getString(2);
-                String num = cursor.getString(3);
-                menudata.add(new Menudata(type, time + " / " + name));
-                //이 다음에 메뉴하고 kcal, 그거는 데이터베이스 추가해서.
-                //이 때 kcal은 mn 값에 곱해서 출력해야함.
-                //총 칼로리 값도 여기서 계산해서 바꾸면 됨.
+                int id = cursor.getInt(0);
+                String type = cursor.getString(1);
+                String time = cursor.getString(2);
+                String name = cursor.getString(3);
+                int num = Integer.parseInt(cursor.getString(4));
+                int kcal = Integer.parseInt(cursor.getString(5));
+                int total_kcal = num * kcal;
+                a = a + total_kcal;
+                menudata.add(new Menudata(type, time + " / " + name, date, total_kcal, id));
             }
+            sum_kcal.setText("총 칼로리 : " + a + "kcal");
             cursor.close();
         }
     }
