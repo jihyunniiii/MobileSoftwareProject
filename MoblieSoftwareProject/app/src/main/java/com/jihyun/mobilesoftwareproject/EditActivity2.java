@@ -17,22 +17,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import org.w3c.dom.Text;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class EditActivity extends AppCompatActivity {
-    //지도 추가
+public class EditActivity2 extends AppCompatActivity {
     private String[] category = {"Breakfast", "Lunch", "Dinner", "Snack"};
     private TextView categoryText;
     private AlertDialog categoryDialog;
@@ -68,9 +69,12 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         TextView Curr_date = findViewById(R.id.Curr_date);
         String curr;
+        int id;
         Intent intent = getIntent();
         curr = intent.getStringExtra("select_date");
-        Curr_date.setText(curr + " 식단 추가");
+        id = intent.getExtras().getInt("id");
+        Curr_date.setText(curr + " 식단 수정");
+
         menuDatabase = MenuDatabase.getInstance(this);
         database = menuDatabase.getWritableDatabase();
 
@@ -86,7 +90,7 @@ public class EditActivity extends AppCompatActivity {
 
         // 데이터 저장.
         ImageButton save_button = findViewById(R.id.save_button);
-        save_button.setOnClickListener(new OnClickListener(){
+        save_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 String type = type_text.getText().toString().trim();
                 String time = time_text.getText().toString().trim();
@@ -95,10 +99,8 @@ public class EditActivity extends AppCompatActivity {
                 String review = review_text.getText().toString().trim();
                 String image = imageText.getText().toString().trim();
                 getkcal(TABLE_NAME2, mn);
-                //{name, date, type, time, num, review}
-                insertmenu(mn, curr, type, time, num, review, kcal_size, image);
-                Intent intent = new Intent(EditActivity.this, DetailActivity.class);
-                //Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                updatemenu(TABLE_NAME, mn, curr, type, time, num, review, kcal_size, image, id);
+                Intent intent = new Intent(EditActivity2.this, DetailActivity.class);
                 intent.putExtra("now_date", curr);
                 startActivity(intent);
             }
@@ -107,14 +109,14 @@ public class EditActivity extends AppCompatActivity {
         getAllmenu(TABLE_NAME2);
         //메뉴 선택
         categoryText2 = (TextView) findViewById(R.id.textView7);
-        categoryText2.setOnClickListener(new OnClickListener() {
+        categoryText2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 categoryDialog2.show();
             }
         });
 
-        categoryDialog2 = new AlertDialog.Builder(EditActivity.this)
+        categoryDialog2 = new AlertDialog.Builder(EditActivity2.this)
                 .setItems(category2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -128,14 +130,14 @@ public class EditActivity extends AppCompatActivity {
 
         // 식사 유형
         categoryText = (TextView) findViewById(R.id.textView5);
-        categoryText.setOnClickListener(new OnClickListener() {
+        categoryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 categoryDialog.show();
             }
         });
 
-        categoryDialog = new AlertDialog.Builder(EditActivity.this)
+        categoryDialog = new AlertDialog.Builder(EditActivity2.this)
                 .setItems(category, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -149,14 +151,14 @@ public class EditActivity extends AppCompatActivity {
 
         // 식사 시간
         timeText = (TextView) findViewById(R.id.textView6);
-        timeText.setOnClickListener(new OnClickListener() {
+        timeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar currentTime = Calendar.getInstance();
                 int hour = currentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = currentTime.get(Calendar.MINUTE);
                 TimePickerDialog MyTimePicker;
-                MyTimePicker = new TimePickerDialog(EditActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                MyTimePicker = new TimePickerDialog(EditActivity2.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         String state = "AM";
@@ -175,7 +177,7 @@ public class EditActivity extends AppCompatActivity {
         // 이미지
         imageText = (TextView) findViewById(R.id.textView2);
         inputImageView = (ImageView) findViewById(R.id.inputimageview);
-        imageText.setOnClickListener(new OnClickListener() {
+        imageText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -260,13 +262,15 @@ public class EditActivity extends AppCompatActivity {
             }
         }
     }
-/*
-    public void deletemenu(String mnn){
+
+    public void updatemenu(String t_name, String name, String date, String type, String time, String num, String review, int kcal, String image, int id){
         if (database != null) {
-            String sql = "DELETE FROM menu WHERE mnn=?";
-            Object[] params = {mnn};
-            database.execSQL(sql, params);
+            String sql = "UPDATE " + t_name +
+                    " SET name = \"" + name + "\", date = \"" + date + "\", type = \"" + type +
+                    "\", time = \"" + time + "\", num = \"" + num + "\", review = \"" +
+                    review + "\", kcal = " + kcal + ", image = \"" + image + "\"";
+            database.execSQL(sql);
         }
     }
- */
+
 }

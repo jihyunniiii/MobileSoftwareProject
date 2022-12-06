@@ -7,4 +7,5 @@
     <string name="kcal">500kcal</string>
     <string name="place">xx 백반집</string>
     <string name="review">먹을 만한데 넘 비쌈</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

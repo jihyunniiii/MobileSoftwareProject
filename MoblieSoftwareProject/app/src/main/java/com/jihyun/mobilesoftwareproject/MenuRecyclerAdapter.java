@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MenuRecyclerAdapter extends RecyclerView.Adapter<MenuRecyclerAdapter.ViewHolder> {
+
+    //RecyclerView에 항목이 없을 경우 '식단이 없습니다' 추가되게
     private ArrayList<Menudata> menudata;
 
     @NonNull

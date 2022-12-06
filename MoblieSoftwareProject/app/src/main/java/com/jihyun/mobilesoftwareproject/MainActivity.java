@@ -1,16 +1,21 @@
 package com.jihyun.mobilesoftwareproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -34,6 +39,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements Clickevent {
 
     //사용자가 입력하는 데이터베이스, 메뉴 이름, 아점저, 시간, 메뉴 수량 정보를 담고 있음. 지도 정보와 사진 정보를 추가적으로 구현해야함
+    //수정 화면 구현해야함. EditActivity2로 만든 다음 복사해서 detailactivity2 정보 가져오게 하면 되니까 구현은 쉬울듯
     private MenuDatabase menuDatabase;
     public static final String TABLE_NAME = "menu";
     SQLiteDatabase database;

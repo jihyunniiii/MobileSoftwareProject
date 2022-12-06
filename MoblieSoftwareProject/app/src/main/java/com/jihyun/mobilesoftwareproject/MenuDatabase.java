@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 
 public class MenuDatabase extends SQLiteOpenHelper {
 
-    //칼로리를 빼고 음식 수량으로만.
     private static MenuDatabase instance;
     public static synchronized MenuDatabase getInstance(Context context){
         if (instance == null) {

@@ -1,15 +1,28 @@
 package com.jihyun.mobilesoftwareproject;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -23,6 +36,8 @@ public class DetailActivity extends AppCompatActivity {
     TextView num_;
     TextView review_;
     TextView name_;
+    ImageView menu_image;
+    String image_uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +48,24 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         curr = intent.getStringExtra("now_date");
         date_text.setText(curr);
-
         type_ = findViewById(R.id.type_text);
         time_ = findViewById(R.id.time_text);
         num_ = findViewById(R.id.num_text);
         review_ = findViewById(R.id.review_text);
         name_ = findViewById(R.id.name_text);
+        menu_image = findViewById(R.id.menu_image);
+
         menuDatabase = MenuDatabase.getInstance(this);
         database = menuDatabase.getWritableDatabase();
-        selectMenu(TABLE_NAME);
+        selectMenu(TABLE_NAME, curr);
+
+        try{
+            menu_image.setImageBitmap(BitmapFactory.decodeFile(image_uri));
+        }catch(Exception e){
+            menu_image.setImageResource(R.drawable.image_empty);
+            Toast.makeText(getApplicationContext(), "이미지를 불러오지 못했습니다", Toast.LENGTH_LONG).show();
+        }
+
         ImageButton check_button = findViewById(R.id.check_button);
         check_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -52,7 +76,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-    public void selectMenu(String t_name){
+    public void selectMenu(String t_name, String curr){
         if (database != null) {
             type_.setText("");
             time_.setText("");
@@ -60,7 +84,7 @@ public class DetailActivity extends AppCompatActivity {
             review_.setText("");
             name_.setText("");
 
-            String sql = "SELECT type, time, num, review, name FROM " + t_name;
+            String sql = "SELECT type, time, num, review, name, image FROM " + t_name + " WHERE date = \"" + curr + "\"";
             Cursor cursor  = database.rawQuery(sql, null);
             for(int i = 0; i < cursor.getCount(); i++)
             {
@@ -70,11 +94,13 @@ public class DetailActivity extends AppCompatActivity {
                 String num = cursor.getString(2);
                 String review = cursor.getString(3);
                 String name = cursor.getString(4);
+                String image = cursor.getString(5);
                 type_.setText(type);
                 time_.setText(time);
                 num_.setText(num);
                 review_.setText(review);
                 name_.setText(name);
+                image_uri = image;
             }
             cursor.close();
         }
