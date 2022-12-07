@@ -6,14 +6,20 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Telephony;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,10 +27,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private Geocoder geocoder;
+    private GoogleMap mMap;
+    private Double latitude;
+    private Double longitude;
 
     private MenuDatabase menuDatabase;
     public static final String TABLE_NAME = "menu";
@@ -75,8 +95,58 @@ public class DetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        geocoder = new Geocoder(this, Locale.KOREA);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.output_map);
+        mapFragment.getMapAsync(this);
+
     }
 
+    MarkerOptions markerOptions = new MarkerOptions();
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // 변환
+        geocoderthread thread = new geocoderthread();
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        LatLng start = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(start, 15));
+
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        markerOptions.title("식사 위치");
+        markerOptions.snippet(map_.getText().toString());
+        markerOptions.position(new LatLng(latitude, longitude));
+
+        mMap.addMarker(markerOptions);
+
+    }
+
+    class geocoderthread extends Thread {
+        public void run() {
+            List<Address> address = null;
+
+            try {
+                address = geocoder.getFromLocationName(map_.getText().toString(), 3);
+                latitude = address.get(0).getLatitude();
+                longitude = address.get(0).getLongitude();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("GeoCoding", "해당 주소로 찾는 위도 경도가 없습니다. 올바른 주소를 입력해주세요.");
+            }
+
+        }
+    }
 
     public void selectMenu(String t_name, String curr){
         if (database != null) {
