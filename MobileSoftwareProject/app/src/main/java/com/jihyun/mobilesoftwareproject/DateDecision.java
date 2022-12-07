@@ -40,7 +40,6 @@ public class DateDecision extends RecyclerView.Adapter<DateDecision.DateHolder>{
         if(day2 != null && selected == position)
         {
             holder.day.setBackgroundResource(R.drawable.circle);
-            //holder.day.setBackgroundColor(Color.parseColor("#E3EEB3"));
         }
         else
         {
