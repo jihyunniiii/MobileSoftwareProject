@@ -62,6 +62,8 @@ public class EditActivity extends AppCompatActivity {
     EditText review_text;
     int kcal_size;
 
+    private TextView placeText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,6 +186,15 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
+        // 장소
+        placeText = (TextView) findViewById(R.id.textView1);
+        placeText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditActivity.this, MapActivity.class);
+                startActivityForResult(intent, 3000);
+            }
+        });
 
     }
 
@@ -257,6 +268,19 @@ public class EditActivity extends AppCompatActivity {
                 cursor.moveToNext();
                 int data = cursor.getInt(0);
                 kcal_size = data;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                // MainActivity 에서 요청할 때 보낸 요청 코드 (3000)
+                case 3000:
+                    placeText.setText(data.getStringExtra("result"));
+                    break;
             }
         }
     }
