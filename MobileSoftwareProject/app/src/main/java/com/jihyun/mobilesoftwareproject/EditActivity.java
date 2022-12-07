@@ -96,9 +96,10 @@ public class EditActivity extends AppCompatActivity {
                 String num = num_text.getText().toString().trim();
                 String review = review_text.getText().toString().trim();
                 String image = imageText.getText().toString().trim();
+                String map = placeText.getText().toString().trim();
                 getkcal(TABLE_NAME2, mn);
                 //{name, date, type, time, num, review}
-                insertmenu(mn, curr, type, time, num, review, kcal_size, image);
+                insertmenu(mn, curr, type, time, num, review, kcal_size, image, map);
                 Intent intent = new Intent(EditActivity.this, DetailActivity.class);
                 //Intent intent = new Intent(EditActivity.this, MainActivity.class);
                 intent.putExtra("now_date", curr);
@@ -235,10 +236,10 @@ public class EditActivity extends AppCompatActivity {
         return path;
     }
 
-    public void insertmenu(String name, String date, String type, String time, String num, String review, int kcal, String image) {
+    public void insertmenu(String name, String date, String type, String time, String num, String review, int kcal, String image, String map) {
         if (database != null) {
-            String sql = "INSERT INTO menu(name, date, type, time, num, review, kcal, image) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            Object[] params = {name, date, type, time, num, review, kcal, image};
+            String sql = "INSERT INTO menu(name, date, type, time, num, review, kcal, image, map) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Object[] params = {name, date, type, time, num, review, kcal, image, map};
             database.execSQL(sql, params);
         }
     }

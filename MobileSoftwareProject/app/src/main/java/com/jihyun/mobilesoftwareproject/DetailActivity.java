@@ -38,6 +38,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView name_;
     ImageView menu_image;
     String image_uri;
+    TextView map_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class DetailActivity extends AppCompatActivity {
         review_ = findViewById(R.id.review_text);
         name_ = findViewById(R.id.name_text);
         menu_image = findViewById(R.id.menu_image);
+        map_ = findViewById(R.id.place_text);
 
         menuDatabase = MenuDatabase.getInstance(this);
         database = menuDatabase.getWritableDatabase();
@@ -84,7 +86,7 @@ public class DetailActivity extends AppCompatActivity {
             review_.setText("");
             name_.setText("");
 
-            String sql = "SELECT type, time, num, review, name, image FROM " + t_name + " WHERE date = \"" + curr + "\"";
+            String sql = "SELECT type, time, num, review, name, image, map FROM " + t_name + " WHERE date = \"" + curr + "\"";
             Cursor cursor  = database.rawQuery(sql, null);
             for(int i = 0; i < cursor.getCount(); i++)
             {
@@ -95,12 +97,14 @@ public class DetailActivity extends AppCompatActivity {
                 String review = cursor.getString(3);
                 String name = cursor.getString(4);
                 String image = cursor.getString(5);
+                String map = cursor.getString(6);
                 type_.setText(type);
                 time_.setText(time);
                 num_.setText(num);
                 review_.setText(review);
                 name_.setText(name);
                 image_uri = image;
+                map_.setText(map);
             }
             cursor.close();
         }
