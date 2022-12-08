@@ -7,17 +7,34 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DetailActivity2 extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-    //여기에도 map, 사진 경로 불러오기 구현해야 함.
-    //Design 수정도 해야함
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+public class DetailActivity2 extends AppCompatActivity implements OnMapReadyCallback {
+
+    private Geocoder geocoder;
+    private GoogleMap mMap;
+    private Double latitude;
+    private Double longitude;
+
     private MenuDatabase menuDatabase;
     public static final String TABLE_NAME = "menu";
     SQLiteDatabase database;
@@ -30,6 +47,7 @@ public class DetailActivity2 extends AppCompatActivity {
     TextView date_text;
     ImageView menu_image;
     String image_uri;
+    TextView map_text;
     ImageButton checkbutton;
     ImageButton deletebutton;
     ImageButton revisebutton;
@@ -54,6 +72,8 @@ public class DetailActivity2 extends AppCompatActivity {
         checkbutton = findViewById(R.id.check_button);
         deletebutton = findViewById(R.id.delete_button);
         revisebutton = findViewById(R.id.revise_button);
+        map_text = findViewById(R.id.place_text);
+
         menu_image = findViewById(R.id.menu_image);
         date_text.setText(date);
         getAlldata(TABLE_NAME, id);
@@ -91,13 +111,64 @@ public class DetailActivity2 extends AppCompatActivity {
                 startActivity(intent3);
             }
         });
+
+        geocoder = new Geocoder(this, Locale.KOREA);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.output_map);
+        mapFragment.getMapAsync(this);
+
+    }
+
+    MarkerOptions markerOptions = new MarkerOptions();
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // 변환
+        DetailActivity2.geocoderthread thread = new DetailActivity2.geocoderthread();
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        LatLng start = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(start, 15));
+
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        markerOptions.title("식사 위치");
+        markerOptions.snippet(map_text.getText().toString());
+        markerOptions.position(new LatLng(latitude, longitude));
+
+        mMap.addMarker(markerOptions);
+
+    }
+
+    class geocoderthread extends Thread {
+        public void run() {
+            List<Address> address = null;
+
+            try {
+                address = geocoder.getFromLocationName(map_text.getText().toString(), 3);
+                latitude = address.get(0).getLatitude();
+                longitude = address.get(0).getLongitude();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("GeoCoding", "해당 주소로 찾는 위도 경도가 없습니다. 올바른 주소를 입력해주세요.");
+            }
+
+        }
     }
 
     private void getAlldata(String t_name, int id)
     {
         if (database != null)
         {
-            String sql = "SELECT type, time, name, num, kcal, review, image FROM " + t_name + " WHERE id = " + id;
+            String sql = "SELECT type, time, name, num, kcal, review, image, map FROM " + t_name + " WHERE id = " + id;
             Cursor cursor = database.rawQuery(sql, null);
             for(int i = 0; i < cursor.getCount(); i++)
             {
@@ -109,12 +180,14 @@ public class DetailActivity2 extends AppCompatActivity {
                 String kcal = cursor.getString(4);
                 String review = cursor.getString(5);
                 String image = cursor.getString(6);
+                String map = cursor.getString(7);
                 type_text.setText(type);
                 time_text.setText(time);
                 name_text.setText(name);
                 num_text.setText("음식 하나당 칼로리 : " + kcal + "kcal  /  먹은 양 : " + num + "개");
                 review_text.setText(review);
                 image_uri = image;
+                map_text.setText(map);
             }
         }
     }

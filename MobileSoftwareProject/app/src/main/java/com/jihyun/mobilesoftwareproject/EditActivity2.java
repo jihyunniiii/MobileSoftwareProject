@@ -63,6 +63,8 @@ public class EditActivity2 extends AppCompatActivity {
     EditText review_text;
     int kcal_size;
 
+    private TextView placeText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,9 +100,10 @@ public class EditActivity2 extends AppCompatActivity {
                 String num = num_text.getText().toString().trim();
                 String review = review_text.getText().toString().trim();
                 String image = imageText.getText().toString().trim();
+                String map = placeText.getText().toString().trim();
                 getkcal(TABLE_NAME2, mn);
-                updatemenu(TABLE_NAME, mn, curr, type, time, num, review, kcal_size, image, id);
-                Intent intent = new Intent(EditActivity2.this, DetailActivity.class);
+                updatemenu(TABLE_NAME, mn, curr, type, time, num, review, kcal_size, image, id, map);
+                Intent intent = new Intent(EditActivity2.this, MainActivity.class);
                 intent.putExtra("now_date", curr);
                 startActivity(intent);
             }
@@ -186,6 +189,15 @@ public class EditActivity2 extends AppCompatActivity {
             }
         });
 
+        // 장소
+        placeText = (TextView) findViewById(R.id.textView1);
+        placeText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditActivity2.this, MapActivity.class);
+                startActivityForResult(intent, 3000);
+            }
+        });
 
     }
 
@@ -226,10 +238,10 @@ public class EditActivity2 extends AppCompatActivity {
         return path;
     }
 
-    public void insertmenu(String name, String date, String type, String time, String num, String review, int kcal, String image) {
+    public void insertmenu(String name, String date, String type, String time, String num, String review, int kcal, String image, String map) {
         if (database != null) {
-            String sql = "INSERT INTO menu(name, date, type, time, num, review, kcal, image) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            Object[] params = {name, date, type, time, num, review, kcal, image};
+            String sql = "INSERT INTO menu(name, date, type, time, num, review, kcal, image, map) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Object[] params = {name, date, type, time, num, review, kcal, image, map};
             database.execSQL(sql, params);
         }
     }
@@ -263,14 +275,26 @@ public class EditActivity2 extends AppCompatActivity {
         }
     }
 
-    public void updatemenu(String t_name, String name, String date, String type, String time, String num, String review, int kcal, String image, int id){
+    public void updatemenu(String t_name, String name, String date, String type, String time, String num, String review, int kcal, String image, int id, String map) {
         if (database != null) {
             String sql = "UPDATE " + t_name +
                     " SET name = \"" + name + "\", date = \"" + date + "\", type = \"" + type +
                     "\", time = \"" + time + "\", num = \"" + num + "\", review = \"" +
-                    review + "\", kcal = " + kcal + ", image = \"" + image + "\"";
+                    review + "\", kcal = " + kcal + ", image = \"" + image + "\", map = \"" + map + "\"";
             database.execSQL(sql);
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                // MainActivity 에서 요청할 때 보낸 요청 코드 (3000)
+                case 3000:
+                    placeText.setText(data.getStringExtra("result"));
+                    break;
+            }
+        }
+    }
 }

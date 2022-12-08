@@ -100,9 +100,9 @@ public class EditActivity extends AppCompatActivity {
                 getkcal(TABLE_NAME2, mn);
                 //{name, date, type, time, num, review}
                 insertmenu(mn, curr, type, time, num, review, kcal_size, image, map);
-                Intent intent = new Intent(EditActivity.this, DetailActivity.class);
-                //Intent intent = new Intent(EditActivity.this, MainActivity.class);
-                intent.putExtra("now_date", curr);
+                //Intent intent = new Intent(EditActivity.this, DetailActivity.class);
+                Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                //intent.putExtra("now_date", curr);
                 startActivity(intent);
             }
         });
