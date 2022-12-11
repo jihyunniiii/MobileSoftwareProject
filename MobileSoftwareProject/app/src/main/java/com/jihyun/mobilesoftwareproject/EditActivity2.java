@@ -280,7 +280,7 @@ public class EditActivity2 extends AppCompatActivity {
             String sql = "UPDATE " + t_name +
                     " SET name = \"" + name + "\", date = \"" + date + "\", type = \"" + type +
                     "\", time = \"" + time + "\", num = \"" + num + "\", review = \"" +
-                    review + "\", kcal = " + kcal + ", image = \"" + image + "\", map = \"" + map + "\"";
+                    review + "\", kcal = " + kcal + ", image = \"" + image + "\", map = \"" + map + "\"" + "WHERE id = "  + id ;
             database.execSQL(sql);
         }
     }
